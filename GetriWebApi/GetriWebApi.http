@@ -1,0 +1,6 @@
+@GetriWebApi_HostAddress = http://localhost:5168
+
+GET {{GetriWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
