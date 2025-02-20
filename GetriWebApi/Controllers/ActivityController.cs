@@ -3,19 +3,19 @@ using Application.Core;
 using GetriWebApi.DataAccess;
 using GetriWebApi.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GetriWebApi.Controllers
 {
     public class ActivityController : BaseApiController
     {
-       
         [HttpGet]
         public async Task<IActionResult> GetActivities(CancellationToken ct) {
             return HandleRequest(await Mediator.Send(new List.Query(), ct));
         }
 
+        //[Authorize]
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetActivity(Guid Id)
         {

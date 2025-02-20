@@ -1,7 +1,7 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text;
 using GetriWebApi.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,6 +9,13 @@ namespace GetriWebApi.Services
 {
     public class TokenService
     {
+        private readonly IConfiguration _config;
+
+        public TokenService(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public string CreateToken(AppUser user)
         {
             var claims = new List<Claim>
@@ -18,7 +25,7 @@ namespace GetriWebApi.Services
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication.pvtw(.[WC/LBb_a~?9,#u8H@ydq'4*"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config[("TokenKey")]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor()
